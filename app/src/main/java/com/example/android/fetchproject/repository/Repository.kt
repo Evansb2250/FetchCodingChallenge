@@ -12,12 +12,13 @@ import kotlinx.coroutines.launch
 
 class Repository {
 
-   private val _mapOfAccountData= MutableLiveData<HashMap<Int,ArrayList<DataTransferObjectAccount>>>()
+    private val _mapOfAccountData= MutableLiveData<HashMap<Int,ArrayList<DataTransferObjectAccount>>>()
     val mapOfAccountData:LiveData<HashMap<Int, ArrayList<DataTransferObjectAccount>>>get() = _mapOfAccountData
 
      fun getData(){
         CoroutineScope(Dispatchers.IO).launch{
            val data = FetchWebServerObject.retrofitService.getAccountFromWebServer()
+               //extension function I created to split the data by listID in a map
                ?.createMapOfValidAccounts()
 
             data?.let {

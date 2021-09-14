@@ -9,30 +9,32 @@ import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.RecyclerView
 import com.example.android.fetchproject.databinding.ActivityMainBinding
 import com.example.android.fetchproject.recyclerview.AccountAdapter
-import com.example.android.fetchproject.repository.Repository
+
 
 class MainActivity : AppCompatActivity() {
-    lateinit var adapter:AccountAdapter
-    lateinit var binding: ActivityMainBinding
+   private var adapter = AccountAdapter()
+   private lateinit var binding: ActivityMainBinding
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding = DataBindingUtil.setContentView(this ,R.layout.activity_main)
 
         val vm = ViewModelProvider(this).get(MainActivityViewModel::class.java)
+
+        //attaches MainActivityViewModel with binding data viewModel
         binding.viewModel = vm
         binding.setLifecycleOwner(this)
+        //attaches Account adapter to the recyclerView adapter
+        binding.recylerView.adapter = adapter
 
+        //informs user when the list has loaded
         vm.completeListOfUsers.observe(this, { it->
-            for (i in it){
-                print("${i}")
-            }
-
+            Toast.makeText(this, "List has loaded!", Toast.LENGTH_SHORT).show()
         })
 
         vm.listToShowUsers.observe(this, {
-            adapter= AccountAdapter(it)
-            binding.recylerView.adapter = adapter
+            adapter.submitList(it)
+            adapter.notifyDataSetChanged()
         })
 
     }
