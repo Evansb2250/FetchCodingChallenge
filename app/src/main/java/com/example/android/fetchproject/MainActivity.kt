@@ -5,6 +5,7 @@ import android.os.Bundle
 import android.util.Log
 import android.widget.Toast
 import androidx.lifecycle.ViewModelProvider
+import androidx.recyclerview.widget.RecyclerView
 import com.example.android.fetchproject.recyclerview.AccountAdapter
 import com.example.android.fetchproject.repository.Repository
 
@@ -15,13 +16,13 @@ class MainActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
         val vm = ViewModelProvider(this).get(MainActivityViewModel::class.java)
-
+        val recyclerView = findViewById<RecyclerView>(R.id.recyclerView)
 
         vm.listToShowUsers.observe(this, {
-            for(i in it) {
-                Log.i("Feature", i.toString())
-            }
+            adapter = AccountAdapter(it)
+            recyclerView.adapter = adapter
         })
+
 
     }
 }

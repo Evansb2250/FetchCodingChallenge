@@ -12,13 +12,22 @@ import kotlinx.coroutines.launch
 
 class Repository {
 
-   private val _mapOfAccountData= MutableLiveData<HashMap<Int,ArrayList<DataTransferObjectAccount>>>()
-    val mapOfAccountData:LiveData<HashMap<Int, ArrayList<DataTransferObjectAccount>>>get() = _mapOfAccountData
+//   private val _mapOfAccountData= MutableLiveData<HashMap<Int,ArrayList<DataTransferObjectAccount>>>()
+//    val mapOfAccountData:LiveData<HashMap<Int, ArrayList<DataTransferObjectAccount>>>get() = _mapOfAccountData
 
-     fun getData(){
+    private val _mapOfAccountData= MutableLiveData<List<DataTransferObjectAccount>>()
+    val mapOfAccountData:LiveData<List<DataTransferObjectAccount>>get() = _mapOfAccountData
+
+
+
+
+
+
+
+    fun getData(){
         CoroutineScope(Dispatchers.IO).launch{
            val data = FetchWebServerObject.retrofitService.getAccountFromWebServer()
-               ?.createMapOfValidAccounts()
+              // ?.createMapOfValidAccounts()
 
             data?.let {
                 _mapOfAccountData.postValue(it)

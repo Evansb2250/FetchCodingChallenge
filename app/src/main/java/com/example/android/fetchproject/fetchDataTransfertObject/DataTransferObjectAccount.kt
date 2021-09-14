@@ -11,7 +11,7 @@ data class DataTransferObjectAccount(
 )
 
 
-fun ArrayList<DataTransferObjectAccount>.transformDataObjectToDomainObject(): List<DomainAccount> {
+fun List<DataTransferObjectAccount>.transformDataObjectToDomainObject(): List<DomainAccount> {
     return map {
         DomainAccount(
             id= it.id,
