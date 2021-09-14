@@ -9,7 +9,6 @@ object FetchWebServerObject {
     }
 
    private fun getFetchWebService(): FetchWebServiceInterface{
-
         if(::INSTANCE.isInitialized){
             return INSTANCE
         }else

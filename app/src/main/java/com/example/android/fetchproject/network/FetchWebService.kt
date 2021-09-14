@@ -1,7 +1,6 @@
 package com.example.android.fetchproject.network
 
 
-import com.example.android.fetchproject.fetchDataTransfertObject.DataTransferObjectAccount
 import com.squareup.moshi.Moshi
 import com.squareup.moshi.kotlin.reflect.KotlinJsonAdapterFactory
 import retrofit2.Retrofit

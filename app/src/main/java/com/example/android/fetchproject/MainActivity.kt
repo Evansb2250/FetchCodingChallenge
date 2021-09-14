@@ -18,8 +18,9 @@ class MainActivity : AppCompatActivity() {
 
 
         vm.listToShowUsers.observe(this, {
-            adapter = AccountAdapter(it)
-
+            for(i in it) {
+                Log.i("Feature", i.toString())
+            }
         })
 
     }
