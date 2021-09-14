@@ -18,46 +18,42 @@ import kotlin.collections.HashMap
 
 class MainActivityViewModel : ViewModel() {
 
-
     private val repository = Repository()
-    @RequiresApi(Build.VERSION_CODES.O)
-    val completeList: LiveData<Map<Int, List<DomainAccount>>> = Transformations.map(repository.mapOfAccountData) { partionedMap ->
-            sort(partionedMap)
-        }
 
+    @RequiresApi(Build.VERSION_CODES.O)
+  //  val completeList: LiveData<Map<Int, List<DomainAccount>>>
 
     private val filter = ArrayList<Int>()
     private val _listToShowUsers = MutableLiveData<ArrayList<DomainAccount>>()
-    val listToShowUsers: LiveData<ArrayList<DomainAccount>> get() = _listToShowUsers
-
-
-
-
-
-
-
-
-    fun updateResults() {
-
+    @RequiresApi(Build.VERSION_CODES.O)
+    val listToShowUsers: LiveData<List<DomainAccount>> = Transformations.map(repository.mapOfAccountData) { partionedMap ->
+        sort(partionedMap)
     }
 
 
 
+
+
     @RequiresApi(Build.VERSION_CODES.O)
-    fun sort(listOfAccountsInMap: List<DataTransferObjectAccount>): Map<Int, List<DomainAccount>> {
+    fun sort(listOfAccountsInMap: List<DataTransferObjectAccount>): List<DomainAccount> {
         val timer = Instant.now()
         val sortedItem = listOfAccountsInMap
-            .transformDataObjectToDomainObject()
             .asSequence()
             .filter { item -> !item.name.isNullOrBlank() }
             .sortedBy { it.listId }
             .sortedBy { it.name }
             .groupBy { it.listId }
+            .flatMap { k ->
+               val flatMod = mutableListOf<DataTransferObjectAccount>()
+                    k.value.forEach{ it -> flatMod.add(it) }
+
+                flatMod
+            }
 
 
         val timer2 = Instant.now()
         println("${Duration.between(timer, timer2)}")
-        return sortedItem
+        return sortedItem.transformDataObjectToDomainObject()
     }
 
 
